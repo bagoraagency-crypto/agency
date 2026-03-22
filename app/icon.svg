@@ -1,0 +1,46 @@
+<svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+
+  <g transform="translate(10, 10)">
+
+    <!-- Corner Nodes -->
+    <circle cx="18" cy="18" r="7" fill="#C9A961"/>
+    <circle cx="118" cy="18" r="7" fill="#C9A961"/>
+    <circle cx="18" cy="118" r="7" fill="#C9A961"/>
+    <circle cx="118" cy="118" r="7" fill="#C9A961"/>
+
+    <!-- Center Node -->
+    <circle cx="68" cy="68" r="7" fill="#C9A961"/>
+
+    <!-- Outer Frame Lines -->
+    <line x1="18" y1="18" x2="118" y2="18" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="18" y1="18" x2="18" y2="118" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="18" y1="118" x2="118" y2="118" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Diagonal Connections -->
+    <line x1="18" y1="18" x2="68" y2="68" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="118" y1="18" x2="68" y2="68" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="18" y1="118" x2="68" y2="68" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="118" y1="118" x2="68" y2="68" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Curved Paths -->
+    <path d="M18 18 Q80 18 80 43 Q80 68 18 68"
+      fill="none" stroke="#C9A961" stroke-width="6" stroke-linecap="round"/>
+    <path d="M18 68 Q90 68 90 93 Q90 118 18 118"
+      fill="none" stroke="#C9A961" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Arrow Indicators -->
+    <path d="M52 38 L44 43 L52 48" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M72 38 L80 43 L72 48" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M52 88 L44 93 L52 98" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M72 88 L80 93 L72 98" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Diagonal Slash -->
+    <line x1="22" y1="112" x2="108" y2="26"
+      stroke="#C9A961" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Arrow Head -->
+    <polygon points="108,26 92,28 106,42" fill="#C9A961"/>
+
+  </g>
+
+</svg>

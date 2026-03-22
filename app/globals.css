@@ -1,26 +1,181 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────
+   THEME VARIABLES — change here, updates everywhere
+   ───────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand colors */
+  --bg:           #0B1F3A;
+  --bg-deep:      #071528;
+  --gold:         #C9A961;
+  --gold-light:   #E2C97E;
+  --gold-dim:     #A8883D;
+  --text:         #FFFFFF;
+  --text-muted:   rgba(255, 255, 255, 0.45);
+  --text-dim:     rgba(255, 255, 255, 0.25);
+  --border:       rgba(201, 169, 97, 0.15);
+  --border-hover: rgba(201, 169, 97, 0.45);
+
+  /* Glow */
+  --glow-sm: 0 0 20px rgba(201, 169, 97, 0.3),  0 0 60px rgba(201, 169, 97, 0.1);
+  --glow-md: 0 0 35px rgba(201, 169, 97, 0.55), 0 0 90px rgba(201, 169, 97, 0.2);
+  --glow-lg: 0 0 40px rgba(201, 169, 97, 0.75), 0 0 100px rgba(201, 169, 97, 0.3);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 50%, var(--gold-light) 100%);
+  --gradient-grid:    rgba(201, 169, 97, 0.04);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Base ─── */
+html, body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-syne), Syne, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth; /* ← add this */
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Keyframes ─── */
+@keyframes float-blob-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.05); }
+  66%       { transform: translate(-20px, 15px) scale(0.97); }
+}
+@keyframes float-blob-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-25px, 20px) scale(1.03); }
+  66%       { transform: translate(20px, -15px) scale(0.98); }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; } 93% { opacity: 0.4; }
+  94% { opacity: 1; } 96% { opacity: 0.6; } 97% { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: var(--glow-sm); }
+  50%       { box-shadow: var(--glow-md); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Animation Classes ─── */
+.animate-fade-up  { animation: fade-up  0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-scale-in { animation: scale-in 1.0s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.delay-100 { animation-delay: 0.1s; opacity: 0; }
+.delay-200 { animation-delay: 0.2s; opacity: 0; }
+.delay-500 { animation-delay: 0.5s; opacity: 0; }
+.delay-700 { animation-delay: 0.7s; opacity: 0; }
+.blob-1    { animation: float-blob-1 12s ease-in-out infinite; }
+.blob-2    { animation: float-blob-2 15s ease-in-out infinite; }
+.flicker   { animation: flicker 8s step-end infinite; }
+.cta-pulse { animation: pulse-glow 3s ease-in-out infinite; }
+
+/* ─── Headline ─── */
+.headline-text {
+  font-family: var(--font-syne), Syne, sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  background: linear-gradient(to right, #ffffff, #888888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
+
+/* ─── Gradient Text ─── */
+.gradient-text {
+  background: var(--gradient-primary);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Grid background ─── */
+.grid-bg {
+  background-image:
+    linear-gradient(var(--gradient-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gradient-grid) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ─── Noise overlay ─── */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* ─── Navbar link ─── */
+.nav-link {
+  position: relative;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+}
+.nav-link:hover { color: var(--text); }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gradient-primary);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after { width: 100%; }
+
+/* ─── Buttons ─── */
+.btn-primary {
+  background: var(--gradient-primary);
+  box-shadow: var(--glow-sm);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--glow-lg);
+}
+.btn-secondary {
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.btn-secondary:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+  background: rgba(201, 169, 97, 0.05);
+}
+
+/* ─── Blobs ─── */
+.blob-gold-1 { background: radial-gradient(circle, var(--gold-dim) 0%, var(--gold) 60%, transparent 100%); }
+.blob-gold-2 { background: radial-gradient(circle, var(--gold) 0%, var(--gold-dim) 50%, transparent 100%); }
+
+/* ─── Glow line ─── */
+.glow-line {
+  background: linear-gradient(90deg, transparent, rgba(201,169,97,0.35) 40%, rgba(201,169,97,0.35) 60%, transparent);
+}
+
+/* ─── Dot / badge glow ─── */
+.dot-glow {
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+}
+
+/* ─── Font helper ─── */
+.font-body { font-family: var(--font-syne), Syne, sans-serif; }
