@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const SERVICES = [
   {
@@ -105,8 +105,42 @@ const SERVICES = [
 ] as const;
 
 export default function Services() {
-  const [hoveredId, setHoveredId]   = useState<number | null>(null);
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [hoveredId, setHoveredId]     = useState<number | null>(null);
+  const [expandedId, setExpandedId]   = useState<number | null>(null);
+  /* Mobile scroll-driven active index — mirrors Timeline logic */
+  const [mobileActiveId, setMobileActiveId] = useState<number | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  /* Scroll listener — only runs on mobile (window.innerWidth < 640) */
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.innerWidth >= 640) return; // desktop: do nothing
+
+      let closestId: number | null = null;
+      let minDist = Infinity;
+
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const r    = el.getBoundingClientRect();
+        const mid  = r.top + r.height / 2;
+        const dist = Math.abs(mid - window.innerHeight / 2);
+        if (dist < minDist) {
+          minDist   = dist;
+          closestId = SERVICES[i].id;
+        }
+      });
+
+      setMobileActiveId(closestId);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll(); // run once on mount
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   return (
     <section
@@ -173,15 +207,17 @@ export default function Services() {
 
         {/* ── Service cards ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {SERVICES.map((service) => {
+          {SERVICES.map((service, i) => {
             const isHovered  = hoveredId === service.id;
-            /* On mobile, tap toggles expanded instead of hover */
             const isExpanded = expandedId === service.id;
-            const isActive   = isHovered || isExpanded;
+            /* On mobile: active = scroll-driven. On desktop: active = hover */
+            const isMobileActive = mobileActiveId === service.id;
+            const isActive = isHovered || isExpanded || isMobileActive;
 
             return (
               <div
                 key={service.id}
+                ref={(el) => { cardRefs.current[i] = el; }}
                 onMouseEnter={() => setHoveredId(service.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 onClick={() => setExpandedId(isExpanded ? null : service.id)}
@@ -266,7 +302,6 @@ export default function Services() {
                     <p className="text-[12px] sm:text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
                       {service.description}
                     </p>
-                    {/* Hint — "Tap" on mobile, "Hover" on desktop */}
                     <div className="flex items-center gap-1.5 mt-4" style={{ color: "var(--gold-dim)" }}>
                       <span className="text-[10px] sm:text-[11px] font-medium">
                         <span className="sm:hidden">Tap</span>

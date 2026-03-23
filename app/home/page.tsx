@@ -143,7 +143,7 @@ export default function HeroSection() {
               className="text-[13px] sm:text-[15px] leading-relaxed max-w-[320px] sm:max-w-lg mx-auto"
               style={{ color: "var(--text-muted)" }}
             >
-              We design and develop websites and apps that grow with your business, from landing pages to fully fledged platforms. 🚀
+              We design and develop websites and apps that grow with your business, from landing pages to fully fledged platforms. 
             </p>
           </div>
 
@@ -157,7 +157,7 @@ export default function HeroSection() {
               Get Started
             </Link>
             <a
-              href="https://cal.com/bagora-agency-pfnups/secret"
+              href="https://cal.com/bagora-agency/15min"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary inline-block px-5 sm:px-7 py-3 sm:py-3.5 rounded-full font-semibold text-[13px] sm:text-[15px] text-center whitespace-nowrap"

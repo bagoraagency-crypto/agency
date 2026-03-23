@@ -528,7 +528,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-row items-center justify-center gap-3 flex-wrap">
               <a
-                href="https://cal.com/bagora-agency-pfnups/secret"
+                href="https://cal.com/bagora-agency/15min"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary text-sm font-bold px-6 sm:px-8 py-3 sm:py-3.5 rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] whitespace-nowrap"

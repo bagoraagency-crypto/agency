@@ -83,10 +83,10 @@ function AvatarMehul({ size }: { size: number }) {
 const AVATAR_COMPONENTS = [AvatarRohan, AvatarArjun, AvatarKabir, AvatarDrSameer, AvatarMehul];
 
 const STATS = [
-  { value: "120+", label: "Projects Delivered" },
-  { value: "98%",  label: "Client Satisfaction" },
-  { value: "4.9",  label: "Average Rating"       },
-  { value: "3x",   label: "Avg. ROI Increase"    },
+  { target: 120, suffix: "+", decimals: 0, label: "Projects Delivered"  },
+  { target: 98,  suffix: "%", decimals: 0, label: "Client Satisfaction" },
+  { target: 4.9, suffix: "★", decimals: 1, label: "Average Rating"      },
+  { target: 3,   suffix: "x", decimals: 0, label: "Avg. ROI Increase"   },
 ] as const;
 
 const TESTIMONIALS = [
@@ -275,6 +275,43 @@ export default function SocialProof() {
   const pauseAuto = () => { autoPaused.current = true; };
   const ActiveAvatar = AVATAR_COMPONENTS[ticker];
 
+  /* ── Animated counters — trigger once when stats bar enters viewport ── */
+  const statsRef    = useRef<HTMLDivElement>(null);
+  const [counts, setCounts] = useState(STATS.map(() => 0));
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
+          const duration = 1800;
+          const steps    = 60;
+          const interval = duration / steps;
+          let step = 0;
+          const timer = setInterval(() => {
+            step++;
+            const eased = 1 - Math.pow(1 - step / steps, 3);
+            setCounts(STATS.map((s) => {
+              const raw = eased * s.target;
+              return s.decimals > 0
+                ? Math.min(parseFloat(raw.toFixed(s.decimals)), s.target)
+                : Math.min(Math.round(raw), s.target);
+            }));
+            if (step >= steps) clearInterval(timer);
+          }, interval);
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       className="relative w-full py-16 sm:py-32 overflow-hidden"
@@ -315,24 +352,25 @@ export default function SocialProof() {
           </p>
         </div>
 
-        {/* ── Stats bar ── */}
+        {/* ── Stats bar — animated counters ── */}
         <div
+          ref={statsRef}
           className="grid grid-cols-2 md:grid-cols-4 gap-px mb-10 sm:mb-20 rounded-2xl overflow-hidden"
           style={{ border: "1px solid var(--border)" }}
         >
-          {STATS.map(({ value, label }, i) => (
-            <div key={label}
+          {STATS.map((stat, i) => (
+            <div key={stat.label}
               className="flex flex-col items-center justify-center py-5 sm:py-8 px-3 sm:px-4 text-center"
               style={{ backgroundColor: "rgba(201,169,97,0.04)", borderRight: i < STATS.length - 1 ? "1px solid var(--border)" : "none" }}
             >
               <span
-                className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-1"
+                className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-1 tabular-nums"
                 style={{ background: "var(--gradient-primary)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
               >
-                {value}
+                {stat.decimals > 0 ? counts[i].toFixed(stat.decimals) : counts[i]}{stat.suffix}
               </span>
               <span className="text-[10px] sm:text-xs tracking-wide uppercase" style={{ color: "var(--text-muted)" }}>
-                {label}
+                {stat.label}
               </span>
             </div>
           ))}
@@ -549,7 +587,7 @@ export default function SocialProof() {
           </div>
           <div className="flex items-center gap-3 flex-shrink-0 w-full sm:w-auto">
             <a href="https://cal.com/bagora-agency-pfnups/secret" target="_blank" rel="noopener noreferrer"
-              className="btn-primary flex-1  whitespace-nowrap sm:flex-none text-sm font-semibold px-5 sm:px-6 py-3 rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] text-center"
+              className="btn-primary whitespace-nowrap flex-1 sm:flex-none text-sm font-semibold px-5 sm:px-6 py-3 rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] text-center"
               style={{ color: "var(--bg-deep)" }}>
               Book a Free Call
             </a>

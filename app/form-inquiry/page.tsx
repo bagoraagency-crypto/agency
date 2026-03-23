@@ -222,7 +222,7 @@ export default function FormInquiry() {
           </p>
           <div className="flex flex-row gap-3 justify-center">
             <a
-              href="https://cal.com/bagora-agency-pfnups/secret"
+              href="https://cal.com/bagora-agency/15min"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary flex-1 sm:flex-none text-sm font-bold px-5 sm:px-6 py-3 rounded-full transition-all duration-300 hover:-translate-y-0.5 text-center whitespace-nowrap"
@@ -564,7 +564,7 @@ export default function FormInquiry() {
         <p className="text-center text-xs mt-5 sm:mt-6" style={{ color: "var(--text-dim)" }}>
           Prefer to talk?{" "}
           <a
-            href="https://cal.com/bagora-agency-pfnups/secret"
+            href="https://cal.com/bagora-agency/15min"
             target="_blank"
             rel="noopener noreferrer"
             className="underline transition-colors duration-200"

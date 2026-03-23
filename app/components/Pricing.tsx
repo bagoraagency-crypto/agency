@@ -77,7 +77,7 @@ const PLANS = [
       "Ongoing product development",
     ],
     cta: "Book a Call",
-    ctaHref: "https://cal.com/bagora-agency-pfnups/secret",
+    ctaHref: "https://cal.com/bagora-agency/15min",
     featured: false,
     features: [
       { text: "Everything in Growth",          included: true  },
@@ -505,7 +505,7 @@ export default function Pricing() {
               </p>
             </div>
             <a
-              href="https://cal.com/bagora-agency-pfnups/secret"
+              href="https://cal.com/bagora-agency/15min"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary w-full sm:w-auto text-center text-sm font-semibold px-6 py-2.5 rounded-full flex-shrink-0 transition-all duration-300 hover:-translate-y-0.5"
