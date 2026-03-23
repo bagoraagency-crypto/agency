@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Syne } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import DirectionalCursor from "./components/DirectionalCursor";
 
 import "./globals.css";
@@ -24,9 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${syne.variable} h-full`} data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col antialiased cursor-none">
-      <DirectionalCursor />
-
+        <DirectionalCursor />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
